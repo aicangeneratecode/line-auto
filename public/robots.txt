@@ -1,0 +1,9 @@
+# *
+User-agent: *
+Allow: /
+
+# Host
+Host: https://lineauto.rs
+
+# Sitemaps
+Sitemap: https://lineauto.rs/sitemap.xml
