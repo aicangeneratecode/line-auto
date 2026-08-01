@@ -1,3 +1,4 @@
+import { SpeedInsights } from "@vercel/speed-insights/next"
 import { Hero } from '@/components/sections/hero';
 import { About } from '@/components/sections/about';
 import { Steps } from '@/components/sections/steps';
@@ -11,6 +12,7 @@ import { BackgroundController } from '@/components/background-controller';
 export default function Home() {
   return (
     <BackgroundController>
+      <SpeedInsights />
       <Hero />          {/* data-section="hero" */}
       <About />         {/* data-section="about" */}
       <Steps />         {/* data-section="steps" */}
