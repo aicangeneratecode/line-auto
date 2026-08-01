@@ -18,10 +18,10 @@ const stats = [
 ];
 
 const carouselImages = [
-  '/images/car_paint.webp',
-  '/images/step-4.webp',
-  '/images/step-7.webp',
-  '/images/step-6.webp',
+  '/images/car_paint1.webp',
+  '/images/car_paint2.webp',
+  '/images/car_paint3.webp',
+  '/images/car_paint4.webp',
 ];
 
 export function About() {

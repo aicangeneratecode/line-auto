@@ -7,7 +7,7 @@ import Image from 'next/image';
 const benefits = [
   { icon: Shield, text: 'Индивидуальные условия для бизнеса' },
   { icon: Clock, text: 'Приоритетное выполнение заказов' },
-  { icon: Users, text: 'Выделенный менеджер и поддержка 24/7' },
+  { icon: Users, text: 'Выделенный менеджер' },  // исправлено
 ];
 
 export function Partners() {
@@ -30,7 +30,6 @@ export function Partners() {
       data-section="partners"
       className="relative py-16 md:py-24 lg:py-32 text-white overflow-hidden bg-black"
     >
-      {/* Фоновое изображение */}
       <div className="absolute inset-0 z-0 opacity-20">
         <Image src="/images/partner-bg.webp" alt="Сотрудничество" fill className="object-cover" />
       </div>
@@ -38,7 +37,6 @@ export function Partners() {
 
       <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-          {/* Левая колонка */}
           <div>
             <p className="inline-block bg-accent/20 text-accent px-4 py-1 rounded-full text-sm font-semibold backdrop-blur-sm border border-accent/30">
               Для бизнеса
@@ -50,7 +48,6 @@ export function Partners() {
             <p className="mt-4 text-gray-300 leading-relaxed max-w-lg">
               Если вы владелец рент-кар, таксопарка или автопарка — мы предлагаем выгодные условия.
             </p>
-            {/* Список преимуществ – скрыт на мобильных */}
             <ul className="hidden md:block mt-6 space-y-3">
               {benefits.map((b, i) => (
                 <li key={i} className="flex items-center gap-3 text-gray-200">
@@ -59,7 +56,6 @@ export function Partners() {
                 </li>
               ))}
             </ul>
-            {/* Блок гарантии – скрыт на мобильных */}
             <div className="hidden md:block mt-8 p-4 border border-white/10 rounded-2xl bg-white/5 backdrop-blur-sm">
               <p className="text-sm text-gray-300">
                 <span className="font-semibold text-white">Гарантия качества:</span> до 3-х лет на все виды работ.
@@ -67,7 +63,6 @@ export function Partners() {
             </div>
           </div>
 
-          {/* Форма */}
           <div className="bg-white/5 backdrop-blur-sm p-6 md:p-8 rounded-3xl border border-white/10">
             <h3 className="text-2xl font-bold mb-2">Обсудить условия</h3>
             <p className="text-sm text-gray-300 mb-6">Заполните форму, и мы свяжемся с вами</p>

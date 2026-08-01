@@ -1,5 +1,5 @@
 import { COMPANY } from '@/lib/config/company';
-import { Phone, Mail, MapPin, Clock, MessageCircle } from 'lucide-react';
+import { Phone, Mail, MapPin, Clock, Send, MessageCircle } from 'lucide-react';
 
 export function Footer() {
   return (
@@ -55,14 +55,7 @@ export function Footer() {
                 target="_blank"
                 rel="noopener noreferrer"
                 className="p-2 md:p-2 bg-white/10 rounded-full hover:bg-primary/20 transition"
-              >
-                <MessageCircle size={20} />
-              </a>
-              <a
-                href={COMPANY.facebook}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="p-2 md:p-2 bg-white/10 rounded-full hover:bg-primary/20 transition"
+                aria-label="Instagram"
               >
                 <MessageCircle size={20} />
               </a>
@@ -71,13 +64,22 @@ export function Footer() {
                 target="_blank"
                 rel="noopener noreferrer"
                 className="p-2 md:p-2 bg-white/10 rounded-full hover:bg-primary/20 transition"
+                aria-label="Telegram"
               >
-                <MessageCircle size={20} />
+                <Send size={20} />
+              </a>
+              <a
+                href={COMPANY.whatsapp}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="p-2 md:p-2 bg-white/10 rounded-full hover:bg-primary/20 transition"
+                aria-label="WhatsApp"
+              >
+                <Phone size={20} />
               </a>
             </div>
           </div>
         </div>
-        {/* Копирайт – теперь отдельно, под сеткой */}
         <div className="mt-8 pt-4 border-t border-white/10 text-center text-sm text-gray-400">
           © {new Date().getFullYear()} LINE AUTO. Все права защищены.
         </div>
