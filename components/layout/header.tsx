@@ -2,9 +2,8 @@
 
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
-import { Menu, X, Phone } from 'lucide-react';
+import { Menu, X } from 'lucide-react';
 import { cn } from '@/lib/utils/cn';
-import { COMPANY } from '@/lib/config/company';
 
 const navItems = [
   { label: 'Процесс', href: '#steps' },
@@ -14,9 +13,12 @@ const navItems = [
   { label: 'Контакты', href: '#contact' },
 ];
 
+const languages = ['RU', 'SR'];
+
 export function Header() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [lang, setLang] = useState('RU');
 
   useEffect(() => {
     const handleScroll = () => setIsScrolled(window.scrollY > 20);
@@ -24,15 +26,43 @@ export function Header() {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  // Блокировка прокрутки при открытом меню
+  // Блокировка прокрутки страницы при открытом меню
   useEffect(() => {
     if (isMenuOpen) {
-      document.body.classList.add('overflow-hidden');
+      const scrollbarWidth = window.innerWidth - document.documentElement.clientWidth;
+      document.documentElement.style.overflow = 'hidden';
+      document.body.style.overflow = 'hidden';
+      if (scrollbarWidth > 0) {
+        document.body.style.paddingRight = `${scrollbarWidth}px`;
+      }
     } else {
-      document.body.classList.remove('overflow-hidden');
+      document.documentElement.style.overflow = '';
+      document.body.style.overflow = '';
+      document.body.style.paddingRight = '';
     }
-    return () => document.body.classList.remove('overflow-hidden');
   }, [isMenuOpen]);
+
+  const closeMenu = () => setIsMenuOpen(false);
+
+  const LanguageSwitcher = () => (
+    <div className="flex items-center gap-1 text-sm font-medium">
+      {languages.map((l) => (
+        <button
+          key={l}
+          onClick={() => setLang(l)}
+          className={cn(
+            'px-2 py-1 text-white/60 transition-all relative',
+            lang === l && 'text-white'
+          )}
+        >
+          {l}
+          {lang === l && (
+            <span className="absolute bottom-0 left-0 right-0 h-0.5 bg-accent" />
+          )}
+        </button>
+      ))}
+    </div>
+  );
 
   return (
     <header
@@ -62,19 +92,7 @@ export function Header() {
                 {item.label}
               </a>
             ))}
-
-            <a
-              href={`tel:${COMPANY.phoneLink}`}
-              className={cn(
-                'flex items-center gap-2 px-4 py-2 rounded-full text-sm font-medium transition-all shadow-sm',
-                isScrolled
-                  ? 'bg-accent text-secondary hover:bg-accent/90'
-                  : 'bg-white/20 text-white backdrop-blur-sm hover:bg-white/30 border border-white/30'
-              )}
-            >
-              <Phone size={16} />
-              {COMPANY.phone}
-            </a>
+            <LanguageSwitcher />
           </nav>
 
           <button
@@ -91,35 +109,54 @@ export function Header() {
         </div>
       </div>
 
-      {/* Мобильное меню – полноэкранное, с непрозрачным фоном и overlay */}
+      {/* Мобильное меню – теперь всегда на весь экран */}
       {isMenuOpen && (
-        <>
-          <div 
-            className="fixed inset-0 bg-black/60 backdrop-blur-sm z-40 md:hidden"
-            onClick={() => setIsMenuOpen(false)}
-          />
-          <div className="md:hidden fixed inset-0 top-16 z-40 flex flex-col items-center justify-center gap-6 p-6 bg-secondary overflow-y-auto">
-            {navItems.map((item) => (
-              <a
-                key={item.href}
-                href={item.href}
-                onClick={() => setIsMenuOpen(false)}
-                className="text-2xl font-medium text-white hover:text-accent transition-colors"
-              >
-                {item.label}
-              </a>
-            ))}
+        <div
+          className="fixed inset-0 z-[100] md:hidden"
+          style={{
+            backgroundColor: '#000',
+            transform: isMenuOpen ? 'translateX(0)' : 'translateX(100%)',
+            transition: 'transform 0.4s cubic-bezier(0.16, 1, 0.3, 1)',
+            overflowY: 'auto',
+            overscrollBehavior: 'contain',
+            height: '100dvh', // динамическая высота для мобильных
+          }}
+        >
+          <div className="flex flex-col min-h-full px-6 py-4">
+            <div className="flex items-center justify-between border-b border-white/10 pb-4">
+              <Link href="/" className="text-xl font-bold text-white">
+                LINE AUTO
+              </Link>
+              <div className="flex items-center gap-4">
+                <LanguageSwitcher />
+                <button
+                  onClick={closeMenu}
+                  aria-label="Закрыть меню"
+                  className="text-white hover:text-accent transition-colors"
+                >
+                  <X size={24} />
+                </button>
+              </div>
+            </div>
 
-            <a
-              href={`tel:${COMPANY.phoneLink}`}
-              onClick={() => setIsMenuOpen(false)}
-              className="flex items-center gap-3 bg-accent text-secondary px-8 py-4 rounded-full text-xl font-semibold mt-4"
-            >
-              <Phone size={22} />
-              {COMPANY.phone}
-            </a>
+            <nav className="flex-1 flex flex-col justify-center gap-0 py-6">
+              {navItems.map((item) => (
+                <div
+                  key={item.href}
+                  className="border-b border-white/10 last:border-0"
+                >
+                  <a
+                    href={item.href}
+                    onClick={closeMenu}
+                    className="block py-5 text-2xl font-bold text-white hover:text-accent transition-colors"
+                  >
+                    {item.label}
+                  </a>
+                </div>
+              ))}
+            </nav>
           </div>
-        </>
+        </div>
       )}
     </header>
   );

@@ -2,7 +2,7 @@
 
 import Image from 'next/image';
 import Link from 'next/link';
-import { ArrowRight, MessageCircle } from 'lucide-react';
+import { ArrowRight, ArrowDown, MessageCircle } from 'lucide-react';
 
 export function Hero() {
   return (
@@ -23,10 +23,10 @@ export function Hero() {
       </div>
 
       {/* Основной контент */}
-      <div className="relative z-10 w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 md:py-20">
+      <div className="relative z-10 w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-8 pb-2 sm:pt-8 sm:pb-6 md:pt-20 md:pb-8">
         <div className="max-w-2xl max-w-full">
           <p
-            className={`inline-block bg-accent/20 text-accent px-4 py-1 rounded-full text-sm font-semibold backdrop-blur-sm border border-accent/30 mb-4 animate-fade-in-up`}
+            className={`hidden sm:inline-block bg-accent/20 text-accent px-4 py-1 rounded-full text-sm font-semibold backdrop-blur-sm border border-accent/30 mb-4 animate-fade-in-up`}
           >
             Профессиональный кузовной ремонт
           </p>
@@ -52,13 +52,14 @@ export function Hero() {
               className="btn-gloss inline-flex items-center justify-center rounded-xl bg-accent text-secondary px-8 py-4 text-lg font-semibold transition-all hover:bg-accent/90 hover:scale-105 shadow-lg shadow-accent/30 group w-full sm:w-auto"
             >
               Записаться на ремонт
-              <ArrowRight className="ml-2 transition-transform group-hover:translate-x-1" size={20} />
+              <ArrowDown className="ml-2 inline-block sm:hidden transition-transform group-hover:translate-y-1" size={20} />
+              <ArrowRight className="ml-2 hidden sm:inline-block transition-transform group-hover:translate-x-1" size={20} />
             </Link>
             <Link
-              href="#services"
+              href="#gallery"
               className="inline-flex items-center justify-center rounded-xl border border-white/30 text-white px-8 py-4 text-lg font-medium transition-all hover:bg-white/10 hover:border-white/50 w-full sm:w-auto"
             >
-              Наши услуги
+              Галерея
             </Link>
           </div>
         </div>

@@ -1,12 +1,12 @@
-// app/actions/contact.ts
+// app/actions/partner.ts
 'use server';
 
 import nodemailer from 'nodemailer';
 
-export async function sendContactForm(formData: FormData) {
+export async function sendPartnerForm(formData: FormData) {
   const name = formData.get('name') as string;
   const phone = formData.get('phone') as string;
-  const message = formData.get('message') as string || '';
+  const comment = formData.get('comment') as string || '';
 
   if (!name || !phone) {
     return { error: 'Пожалуйста, заполните имя и телефон.' };
@@ -25,18 +25,18 @@ export async function sendContactForm(formData: FormData) {
   try {
     await transporter.sendMail({
       from: process.env.SMTP_USER,
-      to: 'lineauto@gmail.com',  // ← изменено
-      subject: `Новая заявка с сайта LINE AUTO от ${name}`,
+      to: 'lineauto@gmail.com',   // тот же адрес
+      subject: `Заявка на сотрудничество от ${name}`,
       text: `
 Имя: ${name}
 Телефон: ${phone}
-Сообщение: ${message || 'не указано'}
+Комментарий: ${comment || 'не указано'}
       `,
       html: `
-        <h3>Новая заявка с сайта LINE AUTO</h3>
+        <h3>Заявка на сотрудничество с LINE AUTO</h3>
         <p><strong>Имя:</strong> ${name}</p>
         <p><strong>Телефон:</strong> ${phone}</p>
-        <p><strong>Сообщение:</strong> ${message || 'не указано'}</p>
+        <p><strong>Комментарий:</strong> ${comment || 'не указано'}</p>
       `,
     });
 
