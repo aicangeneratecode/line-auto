@@ -2,23 +2,29 @@
 
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
+import { useRouter, usePathname } from 'next/navigation';
+import { useTranslations, useLocale } from 'next-intl';
 import { Menu, X } from 'lucide-react';
 import { cn } from '@/lib/utils/cn';
 
-const navItems = [
-  { label: 'Процесс', href: '#steps' },
-  { label: 'Галерея', href: '#gallery' },
-  { label: 'О нас', href: '#about' },
-  { label: 'FAQ', href: '#faq' },
-  { label: 'Контакты', href: '#contact' },
-];
-
-const languages = ['RU', 'SR'];
+const languages = ['ru', 'sr'];
 
 export function Header() {
+  const t = useTranslations('header.nav');
+  const locale = useLocale();
+  const router = useRouter();
+  const pathname = usePathname();
+
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [lang, setLang] = useState('RU');
+
+  const navItems = [
+    { label: t('process'), href: '#steps' },
+    { label: t('gallery'), href: '#gallery' },
+    { label: t('about'), href: '#about' },
+    { label: t('faq'), href: '#faq' },
+    { label: t('contact'), href: '#contact' },
+  ];
 
   useEffect(() => {
     const handleScroll = () => setIsScrolled(window.scrollY > 20);
@@ -26,7 +32,6 @@ export function Header() {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  // Блокировка прокрутки страницы при открытом меню
   useEffect(() => {
     if (isMenuOpen) {
       const scrollbarWidth = window.innerWidth - document.documentElement.clientWidth;
@@ -44,19 +49,29 @@ export function Header() {
 
   const closeMenu = () => setIsMenuOpen(false);
 
+  // Переключение языка с сохранением якоря
+  const switchLanguage = (newLocale: string) => {
+    if (newLocale === locale) return;
+    const pathnameWithoutLocale = pathname.replace(`/${locale}`, '');
+    const hash = window.location.hash;
+    const newPath = `/${newLocale}${pathnameWithoutLocale}${hash}`;
+    router.push(newPath);
+    closeMenu();
+  };
+
   const LanguageSwitcher = () => (
     <div className="flex items-center gap-1 text-sm font-medium">
       {languages.map((l) => (
         <button
           key={l}
-          onClick={() => setLang(l)}
+          onClick={() => switchLanguage(l)}
           className={cn(
-            'px-2 py-1 text-white/60 transition-all relative',
-            lang === l && 'text-white'
+            'px-2 py-1 text-white/60 transition-all relative uppercase',
+            locale === l && 'text-white'
           )}
         >
           {l}
-          {lang === l && (
+          {locale === l && (
             <span className="absolute bottom-0 left-0 right-0 h-0.5 bg-accent" />
           )}
         </button>
@@ -75,7 +90,7 @@ export function Header() {
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16 md:h-20">
-          <Link href="/" className="text-2xl font-bold text-white">
+          <Link href={`/${locale}`} className="text-2xl font-bold text-white">
             LINE AUTO
           </Link>
 
@@ -109,7 +124,6 @@ export function Header() {
         </div>
       </div>
 
-      {/* Мобильное меню – теперь всегда на весь экран */}
       {isMenuOpen && (
         <div
           className="fixed inset-0 z-[100] md:hidden"
@@ -119,12 +133,12 @@ export function Header() {
             transition: 'transform 0.4s cubic-bezier(0.16, 1, 0.3, 1)',
             overflowY: 'auto',
             overscrollBehavior: 'contain',
-            height: '100dvh', // динамическая высота для мобильных
+            height: '100dvh',
           }}
         >
           <div className="flex flex-col min-h-full px-6 py-4">
             <div className="flex items-center justify-between border-b border-white/10 pb-4">
-              <Link href="/" className="text-xl font-bold text-white">
+              <Link href={`/${locale}`} className="text-xl font-bold text-white">
                 LINE AUTO
               </Link>
               <div className="flex items-center gap-4">

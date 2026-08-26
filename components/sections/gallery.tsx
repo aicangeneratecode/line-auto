@@ -1,6 +1,7 @@
 'use client';
 
 import Image from 'next/image';
+import { useTranslations } from 'next-intl';
 import { useRef, useState } from 'react';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 
@@ -8,9 +9,11 @@ interface CompareSliderProps {
   before: string;
   after: string;
   alt: string;
+  beforeLabel: string;
+  afterLabel: string;
 }
 
-function CompareSlider({ before, after, alt }: CompareSliderProps) {
+function CompareSlider({ before, after, alt, beforeLabel, afterLabel }: CompareSliderProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const [sliderPosition, setSliderPosition] = useState(50);
 
@@ -67,26 +70,32 @@ function CompareSlider({ before, after, alt }: CompareSliderProps) {
           <span className="text-gray-900 font-bold text-lg tracking-tight">‹ ›</span>
         </div>
       </div>
-      <div className="absolute top-3 left-3 px-2.5 py-0.5 rounded-full bg-black/50 text-white text-xs backdrop-blur-sm">До</div>
-      <div className="absolute top-3 right-3 px-2.5 py-0.5 rounded-full bg-black/50 text-white text-xs backdrop-blur-sm">После</div>
+      <div className="absolute top-3 left-3 px-2.5 py-0.5 rounded-full bg-black/50 text-white text-xs backdrop-blur-sm">
+        {beforeLabel}
+      </div>
+      <div className="absolute top-3 right-3 px-2.5 py-0.5 rounded-full bg-black/50 text-white text-xs backdrop-blur-sm">
+        {afterLabel}
+      </div>
     </div>
   );
 }
 
-const galleryItems = [
-  { before: '/images/before-dent.webp', after: '/images/after-dent.webp', alt: 'Удаление вмятины' },
-  { before: '/images/before-bumper.webp', after: '/images/after-bumper.webp', alt: 'Покраска бампера' },
-  { before: '/images/before-scratch.webp', after: '/images/after-scratch.webp', alt: 'Удаление царапин' },
-];
-
 export function Gallery() {
+  const t = useTranslations('gallery');
+  const items = t.raw('items') as Array<{
+    alt: string;
+    before: string;
+    after: string;
+  }>;
   const [activeIndex, setActiveIndex] = useState(0);
+  const beforeLabel = t('before');
+  const afterLabel = t('after');
 
   const goPrev = () => {
-    setActiveIndex((prev) => (prev - 1 + galleryItems.length) % galleryItems.length);
+    setActiveIndex((prev) => (prev - 1 + items.length) % items.length);
   };
   const goNext = () => {
-    setActiveIndex((prev) => (prev + 1) % galleryItems.length);
+    setActiveIndex((prev) => (prev + 1) % items.length);
   };
 
   return (
@@ -103,28 +112,34 @@ export function Gallery() {
       <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center max-w-3xl mx-auto space-y-3">
           <span className="inline-flex px-4 py-1 rounded-full text-sm font-semibold bg-accent/20 text-accent border border-accent/30">
-            Наши работы
+            {t('badge')}
           </span>
-          <h2 className="text-3xl md:text-4xl font-bold">До и после</h2>
-          <p className="text-gray-300 text-lg">Реальные результаты ремонта</p>
+          <h2 className="text-3xl md:text-4xl font-bold">{t('title')}</h2>
+          <p className="text-gray-300 text-lg">{t('subtitle')}</p>
         </div>
 
-        {/* Десктопная сетка – 3 в ряд */}
         <div className="hidden md:grid grid-cols-3 gap-4 md:gap-8 mt-12">
-          {galleryItems.map((item, index) => (
-            <CompareSlider key={index} before={item.before} after={item.after} alt={item.alt} />
+          {items.map((item, index) => (
+            <CompareSlider
+              key={index}
+              before={item.before}
+              after={item.after}
+              alt={item.alt}
+              beforeLabel={beforeLabel}
+              afterLabel={afterLabel}
+            />
           ))}
         </div>
 
-        {/* Мобильный слайдер – один активный слайд */}
         <div className="md:hidden mt-8">
           <CompareSlider
-            before={galleryItems[activeIndex].before}
-            after={galleryItems[activeIndex].after}
-            alt={galleryItems[activeIndex].alt}
+            before={items[activeIndex].before}
+            after={items[activeIndex].after}
+            alt={items[activeIndex].alt}
+            beforeLabel={beforeLabel}
+            afterLabel={afterLabel}
           />
 
-          {/* Управление под слайдером – стрелки + точки */}
           <div className="flex items-center justify-center gap-4 mt-4">
             <button
               onClick={goPrev}
@@ -135,7 +150,7 @@ export function Gallery() {
             </button>
 
             <div className="flex gap-2">
-              {galleryItems.map((_, idx) => (
+              {items.map((_, idx) => (
                 <button
                   key={idx}
                   onClick={() => setActiveIndex(idx)}

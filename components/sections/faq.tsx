@@ -1,36 +1,16 @@
 'use client';
 
 import { useState } from 'react';
+import { useTranslations } from 'next-intl';
 import { Plus, Minus } from 'lucide-react';
 
-const faqs = [
-  {
-    id: '01',
-    question: 'Сколько времени занимает окраска автомобиля?',
-    answer:
-      'В зависимости от объёма работ и состояния кузова, процесс может занять от нескольких дней до недели.',
-  },
-  {
-    id: '02',
-    question: 'Какие материалы вы используете для покраски?',
-    answer:
-      'Мы используем только высококачественные материалы и сертифицированные краски, чтобы обеспечить долговечность и стойкость покрытия.',
-  },
-  {
-    id: '03',
-    question: 'Могу ли я выбрать любой цвет для окраски?',
-    answer:
-      'Да, мы предлагаем широкий выбор оттенков и можем подобрать индивидуальный цвет по вашему запросу.',
-  },
-  {
-    id: '04',
-    question: 'Предоставляете ли вы гарантию на выполненные работы?',
-    answer:
-      'Да, мы даем гарантию на наши малярные работы, что подтверждает высокое качество наших услуг.',
-  },
-];
-
 export function FAQ() {
+  const t = useTranslations('faq');
+  const faqs = t.raw('items') as Array<{
+    id: string;
+    question: string;
+    answer: string;
+  }>;
   const [openIndex, setOpenIndex] = useState<number | null>(null);
   const toggle = (index: number) => setOpenIndex(openIndex === index ? null : index);
 
@@ -39,10 +19,10 @@ export function FAQ() {
       <div className="relative z-10 max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center space-y-3 max-w-3xl mx-auto">
           <p className="inline-block bg-accent/20 text-accent px-4 py-1 rounded-full text-sm font-semibold backdrop-blur-sm border border-accent/30">
-            Ответы на вопросы
+            {t('badge')}
           </p>
-          <h2 className="text-3xl md:text-4xl font-bold">Часто задаваемые вопросы</h2>
-          <p className="text-lg text-gray-300">Всё, что вы хотели узнать</p>
+          <h2 className="text-3xl md:text-4xl font-bold">{t('title')}</h2>
+          <p className="text-lg text-gray-300">{t('subtitle')}</p>
         </div>
 
         <div className="mt-12 divide-y divide-white/10">

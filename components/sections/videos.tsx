@@ -1,25 +1,8 @@
 'use client';
 
 import { useState } from 'react';
+import { useTranslations } from 'next-intl';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
-
-const videoItems = [
-  {
-    id: '1',
-    title: 'Процесс покраски',
-    src: '/videos/servis1.mp4',
-  },
-  {
-    id: '2',
-    title: 'Удаление вмятины',
-    src: '/videos/servis2.mp4',
-  },
-  {
-    id: '3',
-    title: 'Полировка',
-    src: '/videos/servis3.mp4',
-  },
-];
 
 interface VideoCardProps {
   src: string;
@@ -46,6 +29,11 @@ function VideoCard({ src, title, poster }: VideoCardProps) {
 }
 
 export function Videos() {
+  const t = useTranslations('videos');
+  const videoItems = t.raw('items') as Array<{
+    title: string;
+    src: string;
+  }>;
   const [activeIndex, setActiveIndex] = useState(0);
 
   const goPrev = () => {
@@ -69,15 +57,15 @@ export function Videos() {
       <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center max-w-3xl mx-auto space-y-3">
           <span className="inline-flex px-4 py-1 rounded-full text-sm font-semibold bg-accent/20 text-accent border border-accent/30">
-            Видео работ
+            {t('badge')}
           </span>
-          <h2 className="text-3xl md:text-4xl font-bold">Наши работы в видео</h2>
-          <p className="text-gray-300 text-lg">Короткие ролики о ремонте и покраске</p>
+          <h2 className="text-3xl md:text-4xl font-bold">{t('title')}</h2>
+          <p className="text-gray-300 text-lg">{t('subtitle')}</p>
         </div>
 
         <div className="hidden md:grid grid-cols-3 gap-4 md:gap-8 mt-8">
           {videoItems.map((item) => (
-            <VideoCard key={item.id} src={item.src} title={item.title}  />
+            <VideoCard key={item.src} src={item.src} title={item.title} />
           ))}
         </div>
 

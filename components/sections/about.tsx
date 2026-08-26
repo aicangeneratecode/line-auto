@@ -1,33 +1,25 @@
 'use client';
 
 import Image from 'next/image';
+import { useTranslations } from 'next-intl';
 import { CheckCircle, ChevronLeft, ChevronRight } from 'lucide-react';
 import { useRef, useEffect, useState } from 'react';
 
-const advantages = [
-  'Опыт работы более 5 лет',
-  'Собственная покрасочная камера',
-  'Материалы высокого качества',
-  'Гарантия на все виды работ',
-];
-
-const stats = [
-  { value: '5+', label: 'Лет опыта' },
-  { value: '1200+', label: 'Отремонтировано авто' },
-  { value: '98%', label: 'Довольных клиентов' },
-];
-
-const carouselImages = [
-  '/images/car_paint1.webp',
-  '/images/car_paint2.webp',
-  '/images/car_paint3.webp',
-  '/images/car_paint4.webp',
-];
-
 export function About() {
+  const t = useTranslations('about');
   const sectionRef = useRef<HTMLElement>(null);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isPaused, setIsPaused] = useState(false);
+
+  // Получаем массивы из переводов
+  const advantages = t.raw('advantages') as string[];
+  const stats = t.raw('stats') as Array<{ value: string; label: string }>;
+  const carouselImages = [
+    '/images/car_paint1.webp',
+    '/images/car_paint2.webp',
+    '/images/car_paint3.webp',
+    '/images/car_paint4.webp',
+  ];
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -67,7 +59,6 @@ export function About() {
       ref={sectionRef}
       className="relative bg-secondary text-white py-12 pt-16 md:py-24 lg:pt-28 overflow-hidden"
     >
-      {/* Фоновые декоративные элементы */}
       <div
         className="absolute inset-0 opacity-[0.05] bg-grid-pattern"
         style={{
@@ -79,20 +70,18 @@ export function About() {
 
       <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-          {/* Левая колонка – текст */}
           <div className="space-y-6">
             <div>
-              <h2 className="mt-4 text-2xl sm:text-4xl lg:text-5xl font-bold tracking-tight leading-tight">
-                <span className="text-accent">LINE AUTO</span> <br />
-                профессиональный кузовной ремонт
-              </h2>
+              <h2
+                className="mt-4 text-2xl sm:text-4xl lg:text-5xl font-bold tracking-tight leading-tight"
+                dangerouslySetInnerHTML={{ __html: t.raw('title') }}
+              />
             </div>
 
             <p className="text-gray-300 leading-relaxed text-base sm:text-lg">
-              Мы команда профессионалов, специализирующаяся на кузовном ремонте и покраске автомобилей в Белграде. Работаем с 2018 года, используя современное оборудование и материалы премиум-класса.
+              {t('description')}
             </p>
 
-            {/* Список преимуществ – скрыт на мобильных, показывается с md */}
             <ul className="hidden md:block space-y-3">
               {advantages.map((item, index) => (
                 <li key={index} className="flex items-center gap-3 text-gray-200">
@@ -114,7 +103,6 @@ export function About() {
             </div>
           </div>
 
-          {/* Правая колонка – карусель */}
           <div
             className="relative"
             onMouseEnter={() => setIsPaused(true)}
@@ -170,10 +158,7 @@ export function About() {
               </div>
             </div>
 
-            <div className="absolute -bottom-6 -left-6 bg-accent text-secondary px-6 py-3 rounded-2xl shadow-2xl font-bold text-2xl flex items-center gap-2 backdrop-blur-sm border border-white/20">
-              <span>5+</span>
-              <span className="text-sm font-normal opacity-80">лет</span>
-            </div>
+           
           </div>
         </div>
       </div>

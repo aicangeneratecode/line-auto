@@ -1,0 +1,207 @@
+{
+    "header": {
+      "nav": {
+        "process": "Proces",
+        "gallery": "Galerija",
+        "about": "O nama",
+        "faq": "FAQ",
+        "contact": "Kontakt"
+      }
+    },
+    "hero": {
+      "badge": "Profesionalni karoserijski popravak",
+      "title": "Popravka i farbanje automobila <br /> <span>u Beogradu</span>",
+      "description": "Kompletan spektar usluga: od lokalne popravke do potpunog prefarbavanja. Radimo sa svim markama. Garancija do 3 godine.",
+      "cta": "Prijavite se za popravku",
+      "galleryLink": "Galerija",
+      "askQuestion": "Postavite pitanja"
+    },
+    "steps": {
+      "badge": "Proces rada",
+      "title": "Faze rada",
+      "subtitle": "Svaka faza – garancija savršenog rezultata",
+      "items": [
+        {
+          "id": "01",
+          "title": "Pregled i priprema površine",
+          "description": "Detaljan pregled vozila, otkrivanje nedostataka i priprema karoserije za rad."
+        },
+        {
+          "id": "02",
+          "title": "Demontaža delova",
+          "description": "Skidanje elemenata koji ne podležu farbanju, radi zaštite i lakšeg izvođenja radova."
+        },
+        {
+          "id": "03",
+          "title": "Odmašćivanje i čišćenje",
+          "description": "Potpuno uklanjanje prljavštine, ulja i starih premaza za idealno prianjanje boje na površinu."
+        },
+        {
+          "id": "04",
+          "title": "Izravnavanje površine",
+          "description": "Kitanje i brušenje oštećenja kako bi se stvorila ravna osnova za farbanje."
+        },
+        {
+          "id": "05",
+          "title": "Grundiranje",
+          "description": "Nanošenje specijalnog prajmera za zaštitu od korozije i poboljšanje adhezije boje."
+        },
+        {
+          "id": "06",
+          "title": "Farbanje",
+          "description": "Nanošenje odabrane nijanse boje korišćenjem savremene opreme i materijala."
+        },
+        {
+          "id": "07",
+          "title": "Lakiranje",
+          "description": "Nanošenje zaštitnog sloja laka za sjaj i dodatnu zaštitu od spoljašnjih uticaja."
+        },
+        {
+          "id": "08",
+          "title": "Poliranje i završna provera",
+          "description": "Završno poliranje i provera kvaliteta premaza pre nego što se vozilo preda klijentu."
+        }
+      ]
+    },
+    "gallery": {
+      "badge": "Naši radovi",
+      "title": "Pre i posle",
+      "subtitle": "Stvarni rezultati popravke",
+      "before": "Pre",
+      "after": "Posle",
+      "items": [
+        { "alt": "Uklanjanje udubljenja", "before": "/images/before-dent.webp", "after": "/images/after-dent.webp" },
+        { "alt": "Farbanje branika", "before": "/images/before-bumper.webp", "after": "/images/after-bumper.webp" },
+        { "alt": "Uklanjanje ogrebotina", "before": "/images/before-scratch.webp", "after": "/images/after-scratch.webp" }
+      ]
+    },
+    "about": {
+      "title": "<span>LINE AUTO</span> <br /> profesionalni karoserijski popravak",
+      "description": "Mi smo tim profesionalaca specijalizovan za karoserijske popravke i farbanje automobila u Beogradu. Radimo od 2018. godine, koristeći savremenu opremu i materijale vrhunskog kvaliteta.",
+      "advantages": [
+        "Iskustvo više od 5 godina",
+        "Sopstvena farbarska komora",
+        "Visokokvalitetni materijali",
+        "Garancija na sve vrste radova"
+      ],
+      "stats": [
+        { "value": "5+", "label": "Godina iskustva" },
+        { "value": "1200+", "label": "Popravljenih automobila" },
+        { "value": "98%", "label": "Zadovoljnih klijenata" }
+      ]
+    },
+    "faq": {
+      "badge": "Odgovori na pitanja",
+      "title": "Često postavljana pitanja",
+      "subtitle": "Sve što ste želeli da znate",
+      "items": [
+        {
+          "id": "01",
+          "question": "Koliko vremena traje farbanje automobila?",
+          "answer": "U zavisnosti od obima posla i stanja karoserije, proces može trajati od nekoliko dana do nedelju dana."
+        },
+        {
+          "id": "02",
+          "question": "Koje materijale koristite za farbanje?",
+          "answer": "Koristimo samo visokokvalitetne materijale i sertifikovane boje kako bismo osigurali trajnost i postojanost premaza."
+        },
+        {
+          "id": "03",
+          "question": "Mogu li da biram bilo koju boju za farbanje?",
+          "answer": "Da, nudimo širok izbor nijansi i možemo da prilagodimo individualnu boju prema vašem zahtevu."
+        },
+        {
+          "id": "04",
+          "question": "Da li dajete garanciju na izvedene radove?",
+          "answer": "Da, dajemo garanciju na naše farbarske radove, što potvrđuje visok kvalitet naših usluga."
+        }
+      ]
+    },
+    "contact": {
+      "badge": "Zakažite",
+      "title": "Kontaktirajte nas",
+      "subtitle": "Ostavite zahtev i mi ćemo vas pozvati u roku od 15 minuta",
+      "form": {
+        "nameLabel": "Vaše ime *",
+        "namePlaceholder": "Ivan",
+        "phoneLabel": "Telefon *",
+        "phonePlaceholder": "+381 60 123 4567",
+        "messageLabel": "Poruka",
+        "messagePlaceholder": "Opišite zadatak",
+        "agreeLabel": "Slažem se sa obradom podataka",
+        "submit": "Pošaljite zahtev",
+        "sending": "Slanje...",
+        "success": "✅ Zahtev je poslat!",
+        "error": "❌ {errorMessage}"
+      },
+      "contacts": {
+        "phone": "Telefon",
+        "email": "Email",
+        "address": "Adresa",
+        "hours": "Radno vreme"
+      }
+    },
+    "partners": {
+      "badge": "Za biznis",
+      "title": "Saradnja sa <br /> <span>LINE AUTO</span>",
+      "description": "Ako ste vlasnik rent-a-kara, taksija ili voznog parka, nudimo vam povoljne uslove.",
+      "benefits": [
+        { "icon": "Shield", "text": "Individualni uslovi za biznis" },
+        { "icon": "Clock", "text": "Prioritetno izvršavanje porudžbina" },
+        { "icon": "Users", "text": "Određeni menadžer" }
+      ],
+      "guarantee": "Garancija kvaliteta: do 3 godine na sve vrste radova.",
+      "form": {
+        "title": "Razmotrimo uslove",
+        "subtitle": "Popunite formu i mi ćemo vas kontaktirati",
+        "nameLabel": "Vaše ime",
+        "namePlaceholder": "Aleksa",
+        "phoneLabel": "Broj telefona",
+        "phonePlaceholder": "+381 60 123 4567",
+        "commentLabel": "Komentar",
+        "commentPlaceholder": "Recite nam nešto o sebi",
+        "agreeLabel": "Slažem se sa obradom podataka",
+        "submit": "Pošaljite zahtev",
+        "sending": "Slanje...",
+        "success": "✅ Zahtev je poslat!",
+        "error": "❌ {errorMessage}"
+      }
+    },
+    "videos": {
+      "badge": "Video radovi",
+      "title": "Naši radovi na videu",
+      "subtitle": "Kratki video zapisi o popravci i farbanju",
+      "items": [
+        { "title": "Proces farbanja", "src": "/videos/servis1.mp4" },
+        { "title": "Uklanjanje udubljenja", "src": "/videos/servis2.mp4" },
+        { "title": "Poliranje", "src": "/videos/servis3.mp4" }
+      ]
+    },
+    "footer": {
+      "description": "Profesionalni karoserijski popravak i farbanje automobila u Beogradu.",
+      "contactsTitle": "Kontakt",
+      "navTitle": "Navigacija",
+      "socialTitle": "Na društvenim mrežama",
+      "copyright": "© {year} LINE AUTO. Sva prava zadržana.",
+      "nav": {
+        "process": "Proces",
+        "gallery": "Galerija",
+        "about": "O nama",
+        "faq": "FAQ",
+        "contact": "Kontakt"
+      }
+    },
+    "metadata": {
+      "title": "LINE AUTO - Karoserijski popravak i farbanje automobila u Beogradu",
+      "description": "Profesionalni karoserijski popravak, farbanje automobila, ispravljanje limarije i poliranje u Beogradu. Radimo sa svim markama. Garancija kvaliteta.",
+      "keywords": "farbanje automobila Beograd, karoserijski popravak Beograd, auto servis Beograd, ispravljanje limarije, poliranje, uklanjanje ogrebotina, farbanje automobila Beograd, odabir boje, popravka karoserije, auto limar Beograd, karoserijski servis Beograd",
+      "ogTitle": "LINE AUTO – Karoserijski popravak i farbanje automobila u Beogradu",
+      "ogDescription": "Profesionalni karoserijski popravak, farbanje, ispravljanje limarije. Garancija, savremena oprema.",
+      "twitterTitle": "LINE AUTO – Karoserijski popravak i farbanje automobila u Beogradu",
+      "twitterDescription": "Profesionalni karoserijski popravak i farbanje automobila u Beogradu. Prijavite se odmah!"
+    },
+    "notFound": {
+      "title": "Stranica nije pronađena",
+      "back": "Početna strana"
+    }
+  }
