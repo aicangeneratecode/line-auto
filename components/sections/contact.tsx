@@ -1,37 +1,58 @@
 'use client';
 
-import { useState, useRef } from 'react';
+import { useState, useRef, ChangeEvent } from 'react';
 import { useTranslations } from 'next-intl';
-import { Phone, Mail, MapPin, Clock, Send } from 'lucide-react';
+import { Phone, Mail, MapPin, Clock, Send, X, Image as ImageIcon } from 'lucide-react';
 import { COMPANY } from '@/lib/config/company';
 import { sendContactForm } from '@/app/actions/contact';
 
 export function Contact() {
   const t = useTranslations('contact');
   const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle');
-  const [errorMessage, setErrorMessage] = useState('');
+  const [statusMessage, setStatusMessage] = useState(''); // храним английский ответ
   const [isChecked, setIsChecked] = useState(false);
+  const [files, setFiles] = useState<File[]>([]);
+  const fileInputRef = useRef<HTMLInputElement>(null);
   const formRef = useRef<HTMLFormElement>(null);
+
+  const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
+    const selected = Array.from(e.target.files || []);
+    setFiles(selected.slice(0, 5)); // ограничим до 5
+  };
+
+  const removeFile = (index: number) => {
+    setFiles((prev) => prev.filter((_, i) => i !== index));
+    if (fileInputRef.current) fileInputRef.current.value = '';
+  };
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (!isChecked) {
-      setErrorMessage(t('form.error', { errorMessage: 'Подтвердите согласие' }));
+      setStatusMessage('Please confirm your consent.');
       setStatus('error');
       return;
     }
     setStatus('loading');
-    setErrorMessage('');
+    setStatusMessage('');
+
     const formData = new FormData(e.currentTarget);
+    files.forEach((file) => formData.append('photos', file));
+
     const result = await sendContactForm(formData);
     if (result.error) {
       setStatus('error');
-      setErrorMessage(result.error);
-    } else {
+      setStatusMessage(result.error);
+    } else if (result.success) {
       setStatus('success');
+      setStatusMessage(result.success);
       formRef.current?.reset();
       setIsChecked(false);
-      setTimeout(() => setStatus('idle'), 5000);
+      setFiles([]);
+      if (fileInputRef.current) fileInputRef.current.value = '';
+      setTimeout(() => {
+        setStatus('idle');
+        setStatusMessage('');
+      }, 5000);
     }
   };
 
@@ -85,6 +106,53 @@ export function Contact() {
                   placeholder={t('form.messagePlaceholder')}
                 />
               </div>
+
+              {/* Поле загрузки фото */}
+              <div>
+                <label className="block text-xs font-medium text-gray-400 uppercase tracking-wider mb-0.5">
+                  Photos (up to 5)
+                </label>
+                <div className="flex items-center gap-2">
+                  <button
+                    type="button"
+                    onClick={() => fileInputRef.current?.click()}
+                    className="px-4 py-2 border border-white/30 rounded-full text-sm hover:bg-white/10 transition"
+                  >
+                    <ImageIcon size={16} className="inline mr-1" />
+                    Choose
+                  </button>
+                  <span className="text-sm text-gray-400">{files.length} / 5</span>
+                </div>
+                <input
+                  ref={fileInputRef}
+                  type="file"
+                  accept="image/*"
+                  multiple
+                  onChange={handleFileChange}
+                  className="hidden"
+                />
+                {files.length > 0 && (
+                  <div className="flex flex-wrap gap-2 mt-2">
+                    {files.map((file, index) => (
+                      <div key={index} className="relative group">
+                        <img
+                          src={URL.createObjectURL(file)}
+                          alt={file.name}
+                          className="w-16 h-16 object-cover rounded border border-white/30"
+                        />
+                        <button
+                          type="button"
+                          onClick={() => removeFile(index)}
+                          className="absolute -top-1 -right-1 bg-red-500 rounded-full p-0.5 hover:bg-red-600 transition"
+                        >
+                          <X size={12} />
+                        </button>
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </div>
+
               <div className="flex items-start gap-3 pt-1">
                 <input
                   type="checkbox"
@@ -94,6 +162,7 @@ export function Contact() {
                 />
                 <label className="text-xs text-gray-300">{t('form.agreeLabel')}</label>
               </div>
+
               <button
                 type="submit"
                 disabled={status === 'loading'}
@@ -102,13 +171,13 @@ export function Contact() {
                 {status === 'loading' ? t('form.sending') : t('form.submit')}
                 <Send className="inline ml-1.5" size={14} />
               </button>
+
+              {/* Показываем статусные сообщения (на английском) */}
               {status === 'success' && (
-                <p className="text-green-400 text-center text-sm">{t('form.success')}</p>
+                <p className="text-green-400 text-center text-sm">{statusMessage}</p>
               )}
               {status === 'error' && (
-                <p className="text-red-400 text-center text-sm">
-                  {t('form.error', { errorMessage })}
-                </p>
+                <p className="text-red-400 text-center text-sm">{statusMessage}</p>
               )}
             </form>
 
@@ -147,7 +216,7 @@ export function Contact() {
             style={{ border: 0 }}
             allowFullScreen
             loading="lazy"
-            title="LINE AUTO на карте"
+            title="LINE AUTO on map"
           />
         </div>
       </div>

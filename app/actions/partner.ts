@@ -1,7 +1,9 @@
-// app/actions/partner.ts
 'use server';
 
-import nodemailer from 'nodemailer';
+import { Resend } from 'resend';
+import { COMPANY } from '@/lib/config/company';
+
+const resend = new Resend(process.env.RESEND_API_KEY);
 
 export async function sendPartnerForm(formData: FormData) {
   const name = formData.get('name') as string;
@@ -9,40 +11,28 @@ export async function sendPartnerForm(formData: FormData) {
   const comment = formData.get('comment') as string || '';
 
   if (!name || !phone) {
-    return { error: 'Пожалуйста, заполните имя и телефон.' };
+    return { error: 'Please fill in your name and phone number.' };
   }
 
-  const transporter = nodemailer.createTransport({
-    host: process.env.SMTP_HOST,
-    port: Number(process.env.SMTP_PORT),
-    secure: false,
-    auth: {
-      user: process.env.SMTP_USER,
-      pass: process.env.SMTP_PASS,
-    },
-  });
-
   try {
-    await transporter.sendMail({
-      from: process.env.SMTP_USER,
-      to: 'lineauto@gmail.com',   // тот же адрес
-      subject: `Заявка на сотрудничество от ${name}`,
-      text: `
-Имя: ${name}
-Телефон: ${phone}
-Комментарий: ${comment || 'не указано'}
-      `,
+    const { error } = await resend.emails.send({
+      from: 'LINE AUTO <noreply@line-auto.rs>',
+      to: COMPANY.email,
+      subject: `Partnership request from ${name}`,
       html: `
-        <h3>Заявка на сотрудничество с LINE AUTO</h3>
-        <p><strong>Имя:</strong> ${name}</p>
-        <p><strong>Телефон:</strong> ${phone}</p>
-        <p><strong>Комментарий:</strong> ${comment || 'не указано'}</p>
+        <p><strong>Name:</strong> ${name}</p>
+        <p><strong>Phone:</strong> ${phone}</p>
+        <p><strong>Comment:</strong> ${comment}</p>
       `,
     });
 
-    return { success: true };
-  } catch (error) {
-    console.error('Ошибка отправки письма:', error);
-    return { error: 'Не удалось отправить заявку. Попробуйте позвонить или напишите в Telegram.' };
+    if (error) {
+      console.error('Resend error:', error);
+      return { error: 'Failed to send request. Please try again later.' };
+    }
+    return { success: 'Your request has been sent successfully!' };
+  } catch (err) {
+    console.error(err);
+    return { error: 'Server error. Please try again later.' };
   }
 }

@@ -1,48 +1,67 @@
-// app/actions/contact.ts
 'use server';
 
-import nodemailer from 'nodemailer';
+import { Resend } from 'resend';
+import { COMPANY } from '@/lib/config/company';
+
+const resend = new Resend(process.env.RESEND_API_KEY);
 
 export async function sendContactForm(formData: FormData) {
   const name = formData.get('name') as string;
   const phone = formData.get('phone') as string;
   const message = formData.get('message') as string || '';
 
+  // Получаем все файлы по ключу 'photos'
+  const files = formData.getAll('photos') as File[];
+  const MAX_FILES = 5;
+  const MAX_SIZE = 5 * 1024 * 1024; // 5 MB
+
+  // Валидация текстовых полей
   if (!name || !phone) {
-    return { error: 'Пожалуйста, заполните имя и телефон.' };
+    return { error: 'Please fill in your name and phone number.' };
   }
 
-  const transporter = nodemailer.createTransport({
-    host: process.env.SMTP_HOST,
-    port: Number(process.env.SMTP_PORT),
-    secure: false,
-    auth: {
-      user: process.env.SMTP_USER,
-      pass: process.env.SMTP_PASS,
-    },
-  });
+  // Валидация файлов
+  if (files.length > MAX_FILES) {
+    return { error: `You can upload up to ${MAX_FILES} photos.` };
+  }
+  for (const file of files) {
+    if (file.size > MAX_SIZE) {
+      return { error: `File "${file.name}" exceeds 5 MB limit.` };
+    }
+    if (!file.type.startsWith('image/')) {
+      return { error: `File "${file.name}" is not an image.` };
+    }
+  }
+
+  // Подготовка вложений
+  const attachments = await Promise.all(
+    files.map(async (file) => ({
+      filename: file.name,
+      content: Buffer.from(await file.arrayBuffer()),
+    }))
+  );
 
   try {
-    await transporter.sendMail({
-      from: process.env.SMTP_USER,
-      to: 'lineauto@gmail.com',  // ← изменено
-      subject: `Новая заявка с сайта LINE AUTO от ${name}`,
-      text: `
-Имя: ${name}
-Телефон: ${phone}
-Сообщение: ${message || 'не указано'}
-      `,
+    const { error } = await resend.emails.send({
+      from: 'LINE AUTO <noreply@line-auto.rs>',
+      to: COMPANY.email,
+      subject: `New message from ${name}`,
       html: `
-        <h3>Новая заявка с сайта LINE AUTO</h3>
-        <p><strong>Имя:</strong> ${name}</p>
-        <p><strong>Телефон:</strong> ${phone}</p>
-        <p><strong>Сообщение:</strong> ${message || 'не указано'}</p>
+        <p><strong>Name:</strong> ${name}</p>
+        <p><strong>Phone:</strong> ${phone}</p>
+        <p><strong>Message:</strong> ${message}</p>
+        <p><strong>Number of photos:</strong> ${files.length}</p>
       `,
+      attachments,
     });
 
-    return { success: true };
-  } catch (error) {
-    console.error('Ошибка отправки письма:', error);
-    return { error: 'Не удалось отправить заявку. Попробуйте позвонить или напишите в Telegram.' };
+    if (error) {
+      console.error('Resend error:', error);
+      return { error: 'Failed to send message. Please try again later.' };
+    }
+    return { success: 'Your message has been sent successfully!' };
+  } catch (err) {
+    console.error(err);
+    return { error: 'Server error. Please try again later.' };
   }
 }

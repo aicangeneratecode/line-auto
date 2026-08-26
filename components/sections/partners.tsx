@@ -17,29 +17,35 @@ export function Partners() {
   const benefits = t.raw('benefits') as Array<{ icon: keyof typeof iconMap; text: string }>;
 
   const [isChecked, setIsChecked] = useState(false);
-  const [errorMessage, setErrorMessage] = useState('');
+  const [statusMessage, setStatusMessage] = useState('');
   const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle');
   const formRef = useRef<HTMLFormElement>(null);
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (!isChecked) {
-      setErrorMessage(t('form.error', { errorMessage: 'Подтвердите согласие' }));
+      setStatusMessage('Please confirm your consent.');
       setStatus('error');
       return;
     }
     setStatus('loading');
-    setErrorMessage('');
+    setStatusMessage('');
+
     const formData = new FormData(e.currentTarget);
     const result = await sendPartnerForm(formData);
+
     if (result.error) {
       setStatus('error');
-      setErrorMessage(result.error);
-    } else {
+      setStatusMessage(result.error);
+    } else if (result.success) {
       setStatus('success');
+      setStatusMessage(result.success);
       formRef.current?.reset();
       setIsChecked(false);
-      setTimeout(() => setStatus('idle'), 5000);
+      setTimeout(() => {
+        setStatus('idle');
+        setStatusMessage('');
+      }, 5000);
     }
   };
 
@@ -80,7 +86,7 @@ export function Partners() {
 
             <div className="hidden md:block mt-8 p-4 border border-white/10 rounded-2xl bg-white/5 backdrop-blur-sm">
               <p className="text-sm text-gray-300">
-                <span className="font-semibold text-white">Гарантия качества:</span> {t('guarantee')}
+                <span className="font-semibold text-white">Quality guarantee:</span> {t('guarantee')}
               </p>
             </div>
           </div>
@@ -142,13 +148,12 @@ export function Partners() {
               >
                 {status === 'loading' ? t('form.sending') : t('form.submit')}
               </button>
+
               {status === 'success' && (
-                <p className="text-green-400 text-center text-sm">{t('form.success')}</p>
+                <p className="text-green-400 text-center text-sm">{statusMessage}</p>
               )}
               {status === 'error' && (
-                <p className="text-red-400 text-center text-sm">
-                  {t('form.error', { errorMessage })}
-                </p>
+                <p className="text-red-400 text-center text-sm">{statusMessage}</p>
               )}
             </form>
           </div>
