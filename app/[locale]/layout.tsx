@@ -15,7 +15,7 @@ const inter = Inter({
 });
 
 export async function generateMetadata({ params }: { params: { locale: string } }) {
-  const { locale } = await params;
+  const { locale } = params; // без await
   const messages = (await import(`@/messages/${locale}.json`)).default;
 
   return {
@@ -71,7 +71,7 @@ export default async function RootLayout({
   children: React.ReactNode;
   params: { locale: string };
 }) {
-  const { locale } = await params;
+  const { locale } = params; // без await
   if (!locales.includes(locale as any)) notFound();
 
   const messages = await getMessages();
