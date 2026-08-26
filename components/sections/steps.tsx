@@ -99,7 +99,7 @@ export function Steps() {
           <p className="text-lg text-gray-300">Каждый этап — залог безупречного результата</p>
         </div>
 
-        <div className="relative mt-12 md:mt-16">
+        <div className="relative mt-6 md:mt-16">
           {/* Вертикальная линия */}
           <div className="absolute left-4 md:left-1/2 transform md:-translate-x-1/2 top-0 bottom-0 w-0.5 bg-white/10 hidden md:block" />
 

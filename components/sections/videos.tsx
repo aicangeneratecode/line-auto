@@ -7,12 +7,12 @@ const videoItems = [
   {
     id: '1',
     title: 'Процесс покраски',
-    src: '/videos/servis2.mp4',
+    src: '/videos/servis1.mp4',
   },
   {
     id: '2',
     title: 'Удаление вмятины',
-    src: '/videos/servis1.mp4',
+    src: '/videos/servis2.mp4',
   },
   {
     id: '3',

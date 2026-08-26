@@ -75,10 +75,30 @@ export function Contact() {
 
             {/* Контакты под формой */}
             <div className="mt-6 pt-4 border-t border-white/10 grid grid-cols-2 gap-2 text-xs">
-              <div className="flex items-center gap-1.5"><Phone size={14} className="text-accent" /><a href={`tel:${COMPANY.phoneLink}`}>{COMPANY.phone}</a></div>
-              <div className="flex items-center gap-1.5"><Mail size={14} className="text-accent" /><a href={`mailto:${COMPANY.email}`}>{COMPANY.email}</a></div>
-              <div className="flex items-start gap-1.5 col-span-2"><MapPin size={14} className="text-accent mt-0.5" /><span className="leading-tight">{COMPANY.address}</span></div>
-              <div className="flex items-center gap-1.5 col-span-2"><Clock size={14} className="text-accent" /><span>{COMPANY.workingHours}</span></div>
+              <div className="flex items-center gap-1.5">
+                <Phone size={14} className="text-accent" />
+                <a href={`tel:${COMPANY.phoneLink}`}>{COMPANY.phone}</a>
+              </div>
+              <div className="flex items-center gap-1.5">
+                <Mail size={14} className="text-accent" />
+                <a href={`mailto:${COMPANY.email}`}>{COMPANY.email}</a>
+              </div>
+              {/* ИСПРАВЛЕННЫЙ БЛОК С АДРЕСОМ – теперь ссылка оборачивает и иконку, и текст */}
+              <div className="flex items-start gap-1.5 col-span-2">
+                <a
+                  href={COMPANY.googleMaps}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-start gap-1.5 hover:text-accent transition-colors underline decoration-white/20"
+                >
+                  <MapPin size={14} className="text-accent mt-0.5 flex-shrink-0" />
+                  <span className="leading-tight">{COMPANY.address}</span>
+                </a>
+              </div>
+              <div className="flex items-center gap-1.5 col-span-2">
+                <Clock size={14} className="text-accent" />
+                <span>{COMPANY.workingHours}</span>
+              </div>
             </div>
           </div>
         </div>
@@ -86,7 +106,7 @@ export function Contact() {
         {/* Карта – правая половина */}
         <div className="relative h-64 lg:h-auto bg-gray-700 min-h-[250px] lg:min-h-[300px]">
           <iframe
-            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d1185.1712437201859!2d20.350329150125262!3d44.75341420981145!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x475a6e873ba76687%3A0x25a387d0250db905!2zQm9yZSBTdGFua292acSHYSBNYWtpxaEgNtCJLCDQntGB0YLRgNGD0LbQvdC40YbQsCwgU2VyYmlh!5e1!3m2!1sen!2sus!4v1783256275982!5m2!1sen!2sus"
+            src={COMPANY.googleMaps}
             className="absolute inset-0 w-full h-full"
             style={{ border: 0 }}
             allowFullScreen
