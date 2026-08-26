@@ -1,4 +1,3 @@
-// app/[locale]/page.tsx
 import { Hero } from '@/components/sections/hero';
 import { About } from '@/components/sections/about';
 import { Steps } from '@/components/sections/steps';
@@ -10,7 +9,7 @@ import { Partners } from '@/components/sections/partners';
 import { BackgroundController } from '@/components/background-controller';
 import { locales } from '@/i18n/config';
 
-// Генерация всех языковых версий при сборке
+// Генерация статических путей – это заставляет params быть промисом
 export function generateStaticParams() {
   return locales.map((locale) => ({ locale }));
 }

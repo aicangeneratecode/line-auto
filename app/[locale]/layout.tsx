@@ -14,8 +14,8 @@ const inter = Inter({
   display: 'swap',
 });
 
-export async function generateMetadata({ params }: { params: { locale: string } }) {
-  const { locale } = params; // ⬅️ Синхронно, без await
+export async function generateMetadata({ params }: LayoutProps<'/[locale]'>) {
+  const { locale } = await params;
   const messages = (await import(`@/messages/${locale}.json`)).default;
 
   return {
@@ -41,14 +41,7 @@ export async function generateMetadata({ params }: { params: { locale: string } 
       siteName: 'LINE AUTO',
       locale: locale === 'ru' ? 'ru_RU' : 'sr_RS',
       type: 'website',
-      images: [
-        {
-          url: '/og-image.jpg',
-          width: 1200,
-          height: 630,
-          alt: messages.metadata.ogTitle,
-        },
-      ],
+      images: [{ url: '/og-image.jpg', width: 1200, height: 630 }],
     },
     twitter: {
       card: 'summary_large_image',
@@ -64,14 +57,9 @@ export async function generateMetadata({ params }: { params: { locale: string } 
   };
 }
 
-export default async function RootLayout({
-  children,
-  params,
-}: {
-  children: React.ReactNode;
-  params: { locale: string }; // ⬅️ Синхронный тип
-}) {
-  const { locale } = params; // ⬅️ Синхронно, без await
+export default async function RootLayout({ children, params }: LayoutProps<'/[locale]'>) {
+  const { locale } = await params;
+
   if (!locales.includes(locale as any)) notFound();
 
   const messages = await getMessages();
@@ -84,11 +72,13 @@ export default async function RootLayout({
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
       </head>
+
       <body>
         <NextIntlClientProvider messages={messages}>
           <Header />
           <main>{children}</main>
           <Footer />
+
           <script
             type="application/ld+json"
             dangerouslySetInnerHTML={{
@@ -105,14 +95,12 @@ export default async function RootLayout({
                   addressCountry: 'RS',
                 },
                 openingHours: COMPANY.workingHours,
-                openingHoursSpecification: [
-                  {
-                    '@type': 'OpeningHoursSpecification',
-                    dayOfWeek: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'],
-                    opens: '09:00',
-                    closes: '18:00',
-                  },
-                ],
+                openingHoursSpecification: [{
+                  '@type': 'OpeningHoursSpecification',
+                  dayOfWeek: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'],
+                  opens: '09:00',
+                  closes: '18:00',
+                }],
                 geo: {
                   '@type': 'GeoCoordinates',
                   latitude: '44.930632',
