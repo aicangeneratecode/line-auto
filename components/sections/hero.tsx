@@ -6,7 +6,7 @@ import { ArrowRight, ArrowDown, MessageCircle } from 'lucide-react';
 
 export function Hero() {
   return (
-    <section className="relative min-h-[75dvh] sm:min-h-[100dvh] flex items-center overflow-hidden bg-secondary">
+    <section className="relative min-h-[75dvh] sm:min-h-[100dvh] flex items-center overflow-hidden bg-secondary hidden md:block">
       {/* Фоновое изображение */}
       <div className="absolute inset-0 z-0">
         <Image

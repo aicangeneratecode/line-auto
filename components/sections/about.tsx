@@ -65,7 +65,7 @@ export function About() {
       id="about"
       data-section="about"
       ref={sectionRef}
-      className="relative bg-secondary text-white py-12 md:py-24 lg:pt-28 overflow-hidden"
+      className="relative bg-secondary text-white py-12 pt-16 md:py-24 lg:pt-28 overflow-hidden"
     >
       {/* Фоновые декоративные элементы */}
       <div
@@ -82,9 +82,6 @@ export function About() {
           {/* Левая колонка – текст */}
           <div className="space-y-6">
             <div>
-              <p className="inline-block bg-accent/20 text-accent px-4 py-1 rounded-full text-sm font-semibold backdrop-blur-sm border border-accent/30">
-                О компании
-              </p>
               <h2 className="mt-4 text-2xl sm:text-4xl lg:text-5xl font-bold tracking-tight leading-tight">
                 <span className="text-accent">LINE AUTO</span> <br />
                 профессиональный кузовной ремонт

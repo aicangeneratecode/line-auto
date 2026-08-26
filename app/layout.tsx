@@ -14,7 +14,7 @@ const inter = Inter({
 
 export const metadata: Metadata = {
   title: {
-    default: 'LINE AUTO – Кузовной ремонт и покраска авто в Белграде',
+    default: 'LINE AUTO - Кузовной ремонт и покраска авто в Белграде',
     template: '%s | LINE AUTO',
   },
   description:
